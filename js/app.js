@@ -38,3 +38,31 @@ function populateModelSelect() {
 }
 
 fetchPricing();
+
+
+const promptInput = document.getElementById('prompt-input');
+const tokenCountDisplay = document.getElementById('token-count');
+
+
+promptInput.addEventListener('input', handlePromptInput);
+
+
+function handlePromptInput() {
+  const text = promptInput.value;
+
+  if (text === "") {
+    tokenCountDisplay.textContent = "0";
+    return;
+  }
+
+  try {
+
+    const tokens = GPTTokenizer_cl100k_base.encode(text);
+
+    tokenCountDisplay.textContent = tokens.length;
+
+  } catch (error) {
+    console.error("Błąd podczas tokenizacji tekstu:", error);
+  }
+}
+
