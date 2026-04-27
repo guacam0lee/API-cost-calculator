@@ -27,31 +27,105 @@
 
     <div class="mb-4">
       <label for="prompt-input" class="block text-sm font-medium text-gray-300 mb-2">Input Prompt</label>
+      <div class="flex justify-end mb-2 -mt-6">
+        <label for="file-upload" class="cursor-pointer text-sm text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 font-medium">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+          Upload .txt / .md / .csv
+        </label>
+        <input id="file-upload" type="file" accept=".txt,.md,.csv,.json" class="hidden" />
+      </div>
       <textarea id="prompt-input" rows="5" class="w-full p-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y transition-shadow font-mono text-sm" placeholder="Paste your prompt text here to estimate cost..."></textarea>
-    </div>
+      <div class="mb-6 pt-4 border-t border-gray-700">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <div>
+            <label for="output-tokens-input" class="block text-sm font-medium text-gray-300 mb-2">Expected Output</label>
+            <input type="number" id="output-tokens-input" value="500" min="0" step="50" class="w-full p-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow font-mono text-sm" placeholder="e.g. 500">
+            <p class="text-[11px] text-gray-500 mt-1.5 leading-tight">
+              Estimate response length: <b>~150</b> (short paragraph), <b>~500</b> (standard page), <b>~1500+</b> (detailed article).
+            </p>
+          </div>
+
+          <div>
+            <label for="api-calls-input" class="block text-sm font-medium text-gray-300 mb-2">API Calls (Bulk)</label>
+            <input type="number" id="api-calls-input" value="1" min="1" class="w-full p-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow font-mono text-sm" placeholder="e.g. 1000">
+            <p class="text-[11px] text-gray-500 mt-1.5 leading-tight">
+              Number of times to run this prompt (e.g., 1000 for database processing).
+            </p>
+          </div>
+
+        </div>
+      </div>
 
     <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-300 mb-2">Token Visualization <span id="viz-count" class="text-gray-500 text-xs">(0 tokens)</span></label>
-      <div id="token-visualization" class="w-full p-3 min-h-[80px] bg-gray-900 border border-gray-700 rounded-lg text-sm font-mono break-words flex flex-wrap gap-1 content-start">
+      <div class="flex justify-between items-center mb-2">
+        <label class="block text-sm font-medium text-gray-300">Token Visualization <span id="viz-count" class="text-gray-500 text-xs">(0 tokens)</span></label>
+
+        <button id="toggle-viz-btn" class="hidden text-xs text-blue-400 hover:text-blue-300 focus:outline-none transition-colors">Show full breakdown ▼</button>
+      </div>
+
+      <div id="token-visualization" class="w-full p-3 min-h-[80px] max-h-[100px] overflow-hidden bg-gray-900 border border-gray-700 rounded-lg text-sm font-mono break-words flex flex-wrap gap-1 content-start relative transition-all duration-300 ease-in-out">
         <span class="text-gray-600 italic">Type to see how your text is tokenized...</span>
       </div>
     </div>
 
-    <div class="bg-gray-900 p-5 rounded-lg border border-gray-700 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <div class="text-center sm:text-left">
-        <p class="text-sm text-gray-400">Total Tokens</p>
-        <p id="token-count" class="text-2xl font-bold text-white">0</p>
+    <div class="bg-gray-900 p-5 rounded-lg border border-gray-700 flex flex-col gap-4">
+
+      <div class="flex flex-col sm:flex-row justify-between pb-4 border-b border-gray-800 gap-2">
+        <div>
+          <p class="text-sm text-gray-400">Input Tokens</p>
+          <p id="token-count" class="text-xl font-bold text-white">0</p>
+        </div>
+        <div class="sm:text-right">
+          <p class="text-sm text-gray-400">Expected Output Tokens</p>
+          <p id="output-token-display" class="text-xl font-bold text-white">500</p>
+        </div>
       </div>
-      <div class="text-center sm:text-right">
-        <p class="text-sm text-gray-400">Estimated Cost</p>
-        <p id="total-cost" class="text-3xl font-bold text-green-400">$0.0000</p>
+
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div class="space-y-1">
+          <p class="text-sm text-gray-400">Input Cost: <span id="input-cost" class="text-gray-300 font-mono">$0.0000</span></p>
+          <p class="text-sm text-gray-400">Output Cost: <span id="output-cost" class="text-gray-300 font-mono">$0.0000</span></p>
+        </div>
+        <div class="sm:text-right">
+          <p class="text-sm text-gray-400 mb-1">Total Estimated Cost</p>
+          <p id="total-cost" class="text-3xl font-bold text-green-400">$0.0000</p>
+        </div>
       </div>
     </div>
-  </div>
+
+
 
   <div id="ad-slot-results" class="min-h-[250px] w-full flex justify-center items-center bg-gray-800 rounded-lg mb-12">
     <span class="text-xs text-gray-500">[Google AdSense Contextual Banner]</span>
   </div>
+
+    <div class="bg-gray-800 shadow-xl rounded-xl overflow-hidden mb-8 border border-gray-700">
+      <div class="p-5 border-b border-gray-700 bg-gray-900">
+        <h2 class="text-lg font-bold text-white">Compare Models (Live Prices)</h2>
+        <p class="text-xs text-gray-400">Total costs automatically update based on your current input and expected output.</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-gray-300">
+          <thead class="bg-gray-700 text-gray-100 text-xs uppercase">
+          <tr>
+            <th class="px-4 py-3">Provider</th>
+            <th class="px-4 py-3">Model</th>
+            <th class="px-4 py-3">Input (1M)</th>
+            <th class="px-4 py-3">Output (1M)</th>
+            <th class="px-4 py-3 text-right">Price per API call</th>
+            <th class="px-4 py-3 text-right">Total price</th>
+          </tr>
+          </thead>
+          <tbody id="comparison-table-body" class="divide-y divide-gray-700">
+          <tr>
+            <td colspan="5" class="px-4 py-6 text-center text-gray-500 italic">Loading comparison data...</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   <article class="prose prose-invert max-w-none text-gray-300 space-y-6 border-t border-gray-700 pt-10">
     <h2 class="text-2xl font-bold text-white">How does the Client-Side AI Cost Estimator work?</h2>
