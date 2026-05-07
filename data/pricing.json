@@ -8,6 +8,20 @@
       "output_price_per_1m": 15.00
     },
     {
+      "id": "gpt-4o-mini",
+      "provider": "OpenAI",
+      "name": "GPT-4o-mini",
+      "input_price_per_1m": 0.15,
+      "output_price_per_1m": 0.60
+    },
+    {
+      "id": "o1-preview",
+      "provider": "OpenAI",
+      "name": "o1-preview",
+      "input_price_per_1m": 15.00,
+      "output_price_per_1m": 60.00
+    },
+    {
       "id": "claude-3-5-sonnet",
       "provider": "Anthropic",
       "name": "Claude 3.5 Sonnet",
@@ -15,11 +29,60 @@
       "output_price_per_1m": 15.00
     },
     {
+      "id": "claude-3-opus",
+      "provider": "Anthropic",
+      "name": "Claude 3 Opus",
+      "input_price_per_1m": 15.00,
+      "output_price_per_1m": 75.00
+    },
+    {
+      "id": "claude-3-haiku",
+      "provider": "Anthropic",
+      "name": "Claude 3 Haiku",
+      "input_price_per_1m": 0.25,
+      "output_price_per_1m": 1.25
+    },
+    {
       "id": "gemini-1-5-pro",
       "provider": "Google",
       "name": "Gemini 1.5 Pro",
       "input_price_per_1m": 3.50,
       "output_price_per_1m": 10.50
+    },
+    {
+      "id": "gemini-1-5-flash",
+      "provider": "Google",
+      "name": "Gemini 1.5 Flash",
+      "input_price_per_1m": 0.075,
+      "output_price_per_1m": 0.30
+    },
+    {
+      "id": "llama-3-1-405b",
+      "provider": "Meta (via API)",
+      "name": "Llama 3.1 (405B)",
+      "input_price_per_1m": 2.75,
+      "output_price_per_1m": 2.75
+    },
+    {
+      "id": "llama-3-1-70b",
+      "provider": "Meta (via API)",
+      "name": "Llama 3.1 (70B)",
+      "input_price_per_1m": 0.50,
+      "output_price_per_1m": 0.50
+    },
+    {
+      "id": "mistral-large",
+      "provider": "Mistral AI",
+      "name": "Mistral Large",
+      "input_price_per_1m": 2.00,
+      "output_price_per_1m": 6.00
+    },
+    {
+      "id": "command-r-plus",
+      "provider": "Cohere",
+      "name": "Command R+",
+      "input_price_per_1m": 3.00,
+      "output_price_per_1m": 15.00
     }
   ]
 }
